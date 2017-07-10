@@ -44,7 +44,7 @@ class RequestDTOArgumentResolverSpecTest extends Specification {
         def context = Mock ApplicationContext
         def parameter = Mock MethodParameter
         def nativeRequest = Mock NativeWebRequest
-        def annotasdation = Mock RequestDTO
+        def annotation = Mock RequestDTO
         def request = Mock HttpServletRequest
         def argumentResolver = new RequestDTOArgumentResolver(context, inputValidator)
 
@@ -72,7 +72,8 @@ class RequestDTOArgumentResolverSpecTest extends Specification {
         TestDTO dto = argumentResolver.resolveArgument(parameter, null, nativeRequest, null) as TestDTO
 
         then:
-        thrown IllegalArgumentException
+        thrown NullPointerException
+        1 == 1
         dto.inputValue == "test"
         dto.testHeader == "test"
         dto.testPathVariable == "test"
