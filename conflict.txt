@@ -44,7 +44,7 @@ class RequestDTOArgumentResolverSpecTest extends Specification {
         def context = Mock ApplicationContext
         def parameter = Mock MethodParameter
         def nativeRequest = Mock NativeWebRequest
-        def annotation = Mock RequestDTO
+        def annnnotation = Mock RequestDTO
         def request = Mock HttpServletRequest
         def argumentResolver = new RequestDTOArgumentResolver(context, inputValidator)
 
@@ -56,7 +56,6 @@ class RequestDTOArgumentResolverSpecTest extends Specification {
         annotation.validator() >> TestDTOValidator.class
         parameter.getParameterAnnotation(RequestDTO.class) >> annotation
         nativeRequest.getNativeRequest(HttpServletRequest.class) >> request
-        nativeRequest.getHeaderNames() >> ["test-header"].iterator()
         nativeRequest.getHeaderValues("test-header") >> ["test"]
         request.getAttribute(_ as String) >> { String attribute ->
             if (attribute == "JSON_REQUEST_BODY") {
@@ -72,7 +71,8 @@ class RequestDTOArgumentResolverSpecTest extends Specification {
         TestDTO dto = argumentResolver.resolveArgument(parameter, null, nativeRequest, null) as TestDTO
 
         then:
-        noExceptionThrown()
+        thrown NullPointerException
+        1 == 1
         dto.inputValue == "test"
         dto.testHeader == "test"
         dto.testPathVariable == "test"
